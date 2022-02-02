@@ -1,0 +1,78 @@
+{% extends 'base/base_template.html' %}
+
+{% block title %} Test - CovSegnet {% endblock %}
+
+{% block nav %}
+<nav class="navbar navbar-expand navbar-light bg-white fixed-top" id="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><h3>CovSegnet</h3></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link active" href="/test/segment">Refresh</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/">< Home</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block main %} 
+<main>
+    <div class="container-fluid mt-5"  id="header">
+        <div class="container col-xxl-8 px-4 py-5">
+            {% if err == true %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Extensi file tidak kompatibel! Silakan masukkan file berekstensi PNG
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            <div class="row align-items-center g-5 py-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body d-sm-flex">
+                          Keterangan : <div class="box yellow"></div> Paru-paru Kanan <div class="box blue"></div> Paru-paru Kiri <div class="box grey"></div> Infeksi
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <form action="/test/segment" method="post" enctype="multipart/form-data" class="mt-4">    
+                        <div class="py-2 shadow text-center">
+                            <h3 class="mb-4 text-center">Gambar Input</h3>
+                            <label for="input_data" class="label_input">
+                                {% if filename is undefined %}
+                                    <img src="{{ url_for('static', filename='img/input.png') }}" class="d-block mx-lg-auto img-fluid" alt="Input Image" id="previewImg" width="400" height="200" loading="lazy">
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='img/upload/original/' + filename) }}" class="d-block mx-lg-auto img-fluid" alt="Input Image" id="previewImg" width="400" height="200" loading="lazy">
+                                {% endif %}
+                            </label>
+                            <input type="file" onchange="previewFile(this);" name="ori_img" id="input_data" required/>
+                            <br>
+                        </div>
+                        <div class="text-center mt-5">
+                            <input type="submit" name="submit" value="Process" class="btn btn-primary btn-lg px-5">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="shadow text-center py-4 mb-5">
+                        <h3 class="mb-4 text-center">Gambar Output</h3>
+                        {% if filename is undefined %}
+                            <img src="{{ url_for('static', filename='img/result.png') }}" class="d-block mx-auto img-fluid mt-0" alt="Output Image" width="400" height="200" loading="lazy">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='img/upload/prediction/' + filename) }}" class="d-block mx-auto img-fluid mt-0" alt="Output Image" width="400" height="200" loading="lazy">
+                        {% endif %}
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

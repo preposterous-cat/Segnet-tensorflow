@@ -1,0 +1,102 @@
+{% extends 'base/base_template.html' %}
+
+{% block title %} Test - CovSegnet {% endblock %}
+
+{% block nav %}
+<nav class="navbar navbar-expand navbar-light bg-white fixed-top" id="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><h3>CovSegnet</h3></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link active" href="/test/metrics">Refresh</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/">< Home</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block main %} 
+<main>
+    <div class="container-fluid mt-5"  id="header">
+        <div class="container col-xxl-8 px-4 py-5">
+            {% if err == true %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Extensi file tidak kompatibel! Silakan masukkan file berekstensi PNG
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            <div class="row align-items-center g-5 py-5">
+                <div class="col-12 col-lg-6 card py-4">
+                    <form action="/test/metrics" method="post" enctype="multipart/form-data" class="mt-1">    
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Masukkan list gambar</label>
+                            <input class="form-control" type="file" id="formFileMultiple" name="ori_img" multiple required>
+                        </div>
+                        <input type="submit" name="submit" value="Process" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="container table-responsive">
+            <table class="table table-bordered border-dark" id="metrics">
+                <thead>
+                <tr class="text-center">
+                    <th scope="col" rowspan="2">No</th>
+                    <th scope="col" rowspan="2">Nama Gambar</th>
+                    <th scope="col" colspan="3">IoU</th>
+                    <th scope="col" rowspan="2">MIoU</th>
+                    <th scope="col" rowspan="2">Inference Time</th>
+                </tr>
+                <tr>
+                    <th scope="col">Paru-paru kanan</th>
+                    <th scope="col">Paru-paru kiri</th>
+                    <th scope="col">Infeksi</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for metric in metrics %}
+                <tr>
+                    <th scope="row" class="text-center">{{ loop.index }}</th>
+                    <td>{{ metric.filename }}</td>
+                    <td>{{ metric.iou1 }}</td>
+                    <td>{{ metric.iou2 }}</td>
+                    <td>{{ metric.iou3 }}</td>
+                    <td>{{ metric.miou }}</td>
+                    <td>{{ metric.time }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th colspan="2">Rata-rata</th>
+                    <th>{{ m_iou1 }}</th>
+                    <th>{{ m_iou2 }}</th>
+                    <th>{{ m_iou3 }}</th>
+                    <th>{{ m_miou }}</th>
+                    <th>{{ m_time }}</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+            Keterangan:
+            <ul>
+                <li>Jika Intersection over Union (IoU) atau Mean Intersection over Union (MIoU) semakin mendekati 1, maka akurasi semakin bagus</li>
+                <li>Jika Waktu Komputasi/Inference Time semakin mendekati 0, maka eksekusi proses semakin cepat</li>
+            </ul>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

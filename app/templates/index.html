@@ -1,0 +1,137 @@
+{% extends 'base/base_template.html' %}
+
+{% block title %} CovSegnet - Segmentasi Semantik dengan Segnet {% endblock %}
+
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top" id="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><h3>CovSegnet</h3></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Test
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                  <li><a class="dropdown-item" href="/test/segment">Test Segmentation</a></li>
+                  <li><a class="dropdown-item" href="/test/metrics">Test Metrics</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#header">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#source">Source</a>
+            </li>
+        </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block main %} 
+<main data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="-1" class="scrollspy-example" tabindex="-1">
+    <!-- Home -->
+    <div class="container-fluid mt-5"  id="header">
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-12 col-lg-6">
+                <img src="{{ url_for('static', filename='img/home.png') }}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="400" height="200" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3 fs-1">Segmentasi Infeksi Paru-paru Penderita Covid-19 Menggunakan Segnet</h1>
+                <p class="lead">
+                    Web ini bertujuan untuk implementasi tahap testing dalam segmentasi infeksi paru-paru penderita Covid-19
+                    menggunakan Segnet.
+                </p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a href="/test/segment">
+                    <button type="button" class="btn btn-primary btn-lg px-5 me-md-2">Test Segmentation</button>
+                </a>
+                <a href="/test/metrics">
+                    <button type="button" class="btn btn-primary btn-lg px-5 me-md-2">Test Metrics</button>
+                </a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Home -->
+
+    <!-- About -->
+    <div class="px-4 py-5 my-5 text-center" id="about">
+        <h1 class="display-5 fw-bold fs-2">Segnet</h1>
+        <div class="col-12 mx-auto">
+            <img src="{{ url_for('static', filename='img/segnet.png') }}" class="d-block mx-auto img-fluid rounded shadow mt-3" alt="Bootstrap Themes" loading="lazy">
+            <div class="row justify-content-sm-center my-3">
+                <div class="col-lg-4 mb-3">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3">Definisi</h5>
+                            <hr>
+                            <p class="card-text p-3">
+                                SegNet adalah arsitektur Fully Convolutional Neural Network berbasis
+                                encoder-decoder untuk tujuan segmentasi semantik.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3">Arsitektur</h5>
+                            <hr>
+                            <p class="card-text p-3">
+                                Arsitektur SegNet terdiri
+                                dari jaringan encoder dan decoder. Pada jaringan encoder, terdapat 13 lapisan
+                                konvolusi yang disusun dalam lima blok. Masing-masing blok terdapat 2-3 lapisan
+                                konvolusi yang diikuti oleh lapisan max-pooling. Jaringan encoder ini identik
+                                dengan lapisan konvolusi pada jaringan VGG-16. Perbedaannya terletak pada penghapusan lapisan Fully Connected.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3">Kelebihan</h5>
+                            <hr>
+                            <p class="card-text">
+                                <ul class="text-start">
+                                    <li>Ukuran Encoder Ringan</li>
+                                    <li>Efisien untuk memori dan waktu komputasi</li>
+                                    <li>Jumlah parameter lebih sedikit</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End About -->
+
+    <!-- Source -->
+    <div class="px-4 pt-5 my-5 text-center border-bottom" id="source">
+        <h1 class="display-5 fw-bold fs-2">Access to Code</h1>
+        <div class="col-lg-6 mx-auto">
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Segnet</button>
+            <button type="button" class="btn btn-primary btn-lg px-4">CovSegnet Web</button>
+          </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+            <img src="{{ url_for('static', filename='img/github.png') }}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+          </div>
+        </div>
+    </div>
+    <!-- End Source -->
+</main>
+{% endblock %}
